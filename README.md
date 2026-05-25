@@ -116,8 +116,6 @@ Spotify из Microsoft Store	Установите версию с spotify.com
 🔧 Для разработчиков
 
 ```bash
-# Перегенерация иконок
-node scripts/generate-icons.js
 
 # Тестирование CDP-подключения
 node scripts/test-cdp.js
