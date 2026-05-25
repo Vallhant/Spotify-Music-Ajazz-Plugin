@@ -217,21 +217,41 @@ class CDPController {
     if (force) {
       await this.executeScript(`try{${JS_CONTROLLER}.stopObservation()}catch(e){} delete window._SpotifyController`);
     }
-    const ok = await this.executeScript(`!!(${JS_CONTROLLER})`);
+    let ok = false;
+    try {
+      ok = await this.executeScript(`!!(${JS_CONTROLLER})`);
+    } catch (e) {
+      log('ERROR', 'Injection check failed', e.message || e);
+    }
     if (!ok || force) {
       log('INFO', 'Injecting Spotify API...');
-      await this.executeScript(this._jsPayload);
+      try {
+        const result = await this.executeScript(this._jsPayload);
+        const verified = await this.executeScript(`!!(${JS_CONTROLLER})`);
+        if (!verified) {
+          log('ERROR', 'Injection failed — script threw at runtime');
+        } else {
+          log('INFO', 'Injection OK');
+        }
+      } catch (e) {
+        log('ERROR', 'Injection threw', e.message || String(e));
+      }
     }
   }
 
   async _setup() {
-    await this._send('Runtime.enable', {});
-    await this._send('Runtime.addBinding', { name: 'sdNotify' });
-    await this._ensureInjection(true);
-    await this.executeScript(`${JS_CONTROLLER}.startObservation()`);
-    const raw = await this.executeScript(`${JS_CONTROLLER}.getFullState()`);
-    if (raw?.success) this._applyFull(raw.data);
-    this._emit();
+    try {
+      await this._send('Runtime.enable', {});
+      await this._send('Runtime.addBinding', { name: 'sdNotify' });
+      await this._ensureInjection(true);
+      await this.executeScript(`${JS_CONTROLLER}.startObservation()`);
+      const raw = await this.executeScript(`${JS_CONTROLLER}.getFullState()`);
+      if (raw?.success) this._applyFull(raw.data);
+      this._emit();
+      log('INFO', 'CDP setup complete');
+    } catch (e) {
+      log('ERROR', 'CDP setup failed', e.message || String(e));
+    }
   }
 
   _findWsUrl() {
@@ -295,31 +315,26 @@ class CDPController {
   /** Изменить громкость кликом по полоске (надёжнее, чем JS-слайдер на 100%) */
   async _adjustVolumePercent(deltaPercent) {
     if (!this.isConnected) throw new Error('Spotify не подключён');
-    const pos = await this.executeScript(`
-      (() => {
-        const bar = document.querySelector('[data-testid="volume-bar"]');
-        if (!bar) return null;
-        const slider = bar.querySelector('input[type="range"]');
-        let cur = 0.5;
-        if (slider) {
-          const max = parseFloat(slider.max) || 1;
-          const val = parseFloat(slider.value) || 0;
-          cur = max <= 1 ? val : val / max;
+    try {
+      await this._ensureInjection();
+      const result = await this._cmd('changeVolume', 'DELTA', deltaPercent);
+      if (result?.success) {
+        if ('volume' in result) {
+          this.state.volume.current = result.volume;
         }
-        const next = Math.max(0, Math.min(1, cur + (${deltaPercent} / 100)));
-        const r = bar.getBoundingClientRect();
-        return { x: r.left + r.width * next, y: r.top + r.height / 2 };
-      })()
-    `);
-    if (!pos) return null;
-    await this._mouseClick(pos.x, pos.y);
-    await new Promise((r) => setTimeout(r, 80));
-    const raw = await this.executeScript(`${JS_CONTROLLER}.getFullState()`);
-    if (raw?.success && raw.data?.volume) {
-      this.state.volume.current = raw.data.volume.current;
-      this.state.volume.is_muted = raw.data.volume.is_muted;
-      this._emit();
-      return raw.data.volume.current;
+        this._emit();
+        return this.state.volume.current;
+      }
+      // Fallback: чтение состояния
+      const raw = await this.executeScript(`${JS_CONTROLLER}.getFullState()`);
+      if (raw?.success && raw.data?.volume) {
+        this.state.volume.current = raw.data.volume.current;
+        this.state.volume.is_muted = raw.data.volume.is_muted;
+        this._emit();
+        return raw.data.volume.current;
+      }
+    } catch (e) {
+      log('ERROR', 'adjustVolumePercent', e.message || String(e));
     }
     return null;
   }
@@ -353,14 +368,14 @@ class CDPController {
     return this._cmd('toggleLike');
   }
   async volumeUp() {
-    await this._adjustVolumePercent(5);
+    return this._adjustVolumePercent(5);
   }
   async volumeDown() {
-    await this._adjustVolumePercent(-5);
+    return this._adjustVolumePercent(-5);
   }
   async volumeDelta(percent) {
     const step = Math.max(-20, Math.min(20, Number(percent) || 0));
-    await this._adjustVolumePercent(step);
+    return this._adjustVolumePercent(step);
   }
   toggleMute() {
     return this._cmd('changeVolume', 'MUTE');

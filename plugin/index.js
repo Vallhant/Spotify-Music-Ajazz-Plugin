@@ -52,10 +52,17 @@ function renderVolume(inst) {
 function applyVolumeTicks(inst, ticks) {
   const t = Number(ticks) || 0;
   if (!t) return;
-  const step = 3 * t;
+  // Debounce: игнорируем если предыдущий вызов был < 80ms назад
+  const now = Date.now();
+  if (inst._lastTick && (now - inst._lastTick < 80)) return;
+  inst._lastTick = now;
+  // Шаг = 2% за один щелчок энкодера — плавнее
+  const step = Math.max(-20, Math.min(20, 2 * Math.round(t)));
   cdp
     .volumeDelta(step)
-    .then(() => renderVolume(inst))
+    .then((result) => {
+      if (result !== undefined) renderVolume(inst);
+    })
     .catch((e) => {
       log('ERROR', 'volume', e);
       plugin.showAlert(inst.context);

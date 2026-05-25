@@ -394,7 +394,7 @@
         const val = parseFloat(slider.value);
         const max = parseFloat(slider.max) || 1;
         const ratio = max <= 1 ? val : val / max;
-        const muteBtn = this._findBtnOne('muteBtn', root, DOM.Volume.MUTE_BTN);
+        const muteBtn = Utils.findBtn(root || document, DOM.Volume.MUTE_BTN);
         return { current: Utils.toPercent(ratio), is_muted: Utils.checkMute(muteBtn) };
       }
       return { current: 0, is_muted: false };
@@ -412,7 +412,7 @@
       target.dispatchEvent(new MouseEvent('mouseup', opts));
       target.dispatchEvent(new MouseEvent('click', opts));
       return true;
-    },
+    }
 
     _wheelVolume(direction) {
       const bar = document.querySelector('[data-testid="volume-bar"]');
@@ -425,7 +425,7 @@
         }),
       );
       return true;
-    },
+    }
 
     _setVolume(val) {
       const clamped = Math.max(0, Math.min(1, Math.round(val * 1000) / 1000));
@@ -463,7 +463,7 @@
     }
 
     _toggleMute() {
-      const btn = this._findBtnOne('muteBtn', document, DOM.Volume.MUTE_BTN);
+      const btn = Utils.findBtn(document, DOM.Volume.MUTE_BTN);
       if (btn) {
         btn.click();
         return { success: true };
@@ -483,8 +483,9 @@
             return { success: true };
           }
         }
+        delete this.cache[key]; // не используем кэш — ищем заново
         const root = this._getPlayer();
-        const btn = this._findBtnOne(key, root, selectors);
+        const btn = Utils.findBtn(root || document, selectors);
         if (!btn || btn.disabled) return { success: false };
         btn.click();
         return { success: true };
