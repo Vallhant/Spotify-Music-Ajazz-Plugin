@@ -44,7 +44,7 @@
 
 ### 1. Скачайте плагин
 
-Скачайте последний релиз со [страницы релизов](../../releases) или скопируйте папку `com.Vallhant.spotify` в директорию плагинов StreamDock:
+Скачайте или скопируйте папку `com.Vallhant.spotify` в директорию плагинов StreamDock:
 %APPDATA%\HotSpot\StreamDock\plugins\ (Windows) ~/Library/Application Support/StreamDock/plugins/ (macOS)
 
 
