@@ -57,10 +57,11 @@ npm install
 Spotify нужно запускать с флагом --remote-debugging-port=9223:
 
 Автоматически: в настройках кнопки плагина нажмите «Запустить Spotify»
+```
 
 Вручную:
 
-bash
+```bash
 # Windows (cmd)
 %APPDATA%\Spotify\Spotify.exe --remote-debugging-port=9223
 
@@ -74,8 +75,8 @@ open -a Spotify --args --remote-debugging-port=9223
 Убедитесь, что Spotify запущен с флагом отладки
 Статус подключения отображается в панели свойств
 Порт можно изменить, если порт 9223 занят:
-
-bash
+```
+```bash
 %APPDATA%\Spotify\Spotify.exe --remote-debugging-port=9224
 🛠 Технические детали
 Как это работает
@@ -113,7 +114,8 @@ scripts/generate-icons.js	Генератор PNG-иконок (144×144, RGBA)
 Не отображается обложка	Проверьте соединение — обложки загружаются со Spotify CDN
 Spotify из Microsoft Store	Установите версию с spotify.com
 🔧 Для разработчиков
-bash
+```
+```bash
 # Перегенерация иконок
 node scripts/generate-icons.js
 
@@ -125,3 +127,4 @@ node scripts/probe-dom.js
 Логирование
 Логи пишутся в папку log/ рядом с плагином.
 Уровни: INFO, ERROR. Даты в имени файла: YYYY-MM-DD.log.
+```
