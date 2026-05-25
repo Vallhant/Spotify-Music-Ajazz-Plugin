@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Spotify — локально</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/barraider/streamdeck-lib@master/sdpi.css">
+  <style>
+    body { background: #2d2d2d; color: #d8d8d8; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .status.ok { color: #1ed760; font-weight: 600; }
+    .status.err { color: #e91429; font-weight: 600; }
+    .hint { font-size: 11px; color: #999; line-height: 1.45; margin-top: 6px; }
+    button.sdpi-item-value {
+      background: #1ed760; color: #000; border: none; padding: 8px 14px;
+      border-radius: 4px; cursor: pointer; font-weight: 600; margin-right: 8px;
+    }
+    code { background: #1a1a1a; padding: 2px 6px; border-radius: 3px; font-size: 10px; }
+  </style>
+</head>
+<body>
+  <div class="sdpi-wrapper">
+    <div class="sdpi-item">
+      <div class="sdpi-item-label">Подключение</div>
+      <div class="sdpi-item-value">
+        <span id="conn_status" class="status err">Не подключено</span>
+      </div>
+    </div>
+
+    <div class="sdpi-item" type="input">
+      <div class="sdpi-item-label">CDP порт</div>
+      <input class="sdpi-item-value" id="local_port" type="text" value="9223"
+        oninput="this.value=this.value.replace(/[^0-9]/g,'')" />
+    </div>
+
+    <div class="sdpi-item">
+      <div class="sdpi-item-label"></div>
+      <div class="sdpi-item-value">
+        <button type="button" id="btn_save">Сохранить порт</button>
+        <button type="button" id="btn_launch">Запустить Spotify</button>
+      </div>
+    </div>
+
+    <hr />
+
+    <div class="sdpi-item">
+      <div class="sdpi-item-label">Инструкция</div>
+      <div class="sdpi-item-value hint">
+        <p>1. Полностью закройте Spotify (в т.ч. из трея).</p>
+        <p>2. Нажмите <strong>Запустить Spotify</strong> — приложение откроется с отладкой на порту выше.</p>
+        <p>Или вручную из cmd:</p>
+        <p><code>%APPDATA%\Spotify\Spotify.exe --remote-debugging-port=9223</code></p>
+        <p>3. Если порт 9222 занят Яндекс Музыкой — используйте 9223 (по умолчанию).</p>
+        <p>4. Управление только локальным клиентом Spotify на этом ПК.</p>
+      </div>
+    </div>
+  </div>
+  <script src="inspector.js"></script>
+</body>
+</html>

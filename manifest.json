@@ -1,0 +1,196 @@
+{
+  "Actions": [
+    {
+      "Icon": "static/img/play_pause",
+      "Name": "Play/Pause",
+      "States": [
+        { "Image": "static/img/emptiness", "Name": "Play" },
+        { "Image": "static/img/emptiness", "Name": "Pause" }
+      ],
+      "UserTitleEnabled": false,
+      "SupportedInMultiActions": true,
+      "PropertyInspectorPath": "propertyInspector/index.html",
+      "Tooltip": "Play/Pause",
+      "UUID": "com.Vallhant.spotify.action.playpause"
+    },
+    {
+      "Icon": "static/img/next",
+      "Name": "Next Track",
+      "States": [{ "Image": "static/img/emptiness" }],
+      "UserTitleEnabled": false,
+      "SupportedInMultiActions": true,
+      "PropertyInspectorPath": "propertyInspector/index.html",
+      "Tooltip": "Next Track",
+      "UUID": "com.Vallhant.spotify.action.next"
+    },
+    {
+      "Icon": "static/img/prev",
+      "Name": "Previous Track",
+      "States": [{ "Image": "static/img/emptiness" }],
+      "UserTitleEnabled": false,
+      "SupportedInMultiActions": true,
+      "PropertyInspectorPath": "propertyInspector/index.html",
+      "Tooltip": "Previous Track",
+      "UUID": "com.Vallhant.spotify.action.prev"
+    },
+    {
+      "Icon": "static/img/info",
+      "Name": "Track Info",
+      "States": [
+        {
+          "Image": "static/img/emptiness",
+          "TitleAlignment": "middle",
+          "FontSize": "10"
+        }
+      ],
+      "UserTitleEnabled": false,
+      "SupportedInMultiActions": true,
+      "PropertyInspectorPath": "propertyInspector/index.html",
+      "Controllers": ["Keypad", "Information"],
+      "Tooltip": "Track Info",
+      "UUID": "com.Vallhant.spotify.action.info"
+    },
+    {
+      "Icon": "static/img/like",
+      "Name": "Like",
+      "States": [
+        { "Image": "static/img/emptiness", "Name": "Like" },
+        { "Image": "static/img/emptiness", "Name": "Unlike" }
+      ],
+      "UserTitleEnabled": false,
+      "SupportedInMultiActions": true,
+      "PropertyInspectorPath": "propertyInspector/index.html",
+      "Controllers": ["Keypad", "Information"],
+      "Tooltip": "Save to library",
+      "UUID": "com.Vallhant.spotify.action.like"
+    },
+    {
+      "Icon": "static/img/vol_up",
+      "Name": "Volume Up",
+      "States": [
+        {
+          "Image": "static/img/emptiness",
+          "TitleAlignment": "bottom",
+          "FontSize": "14"
+        }
+      ],
+      "Controllers": ["Keypad", "Knob"],
+      "UserTitleEnabled": false,
+      "SupportedInMultiActions": true,
+      "PropertyInspectorPath": "propertyInspector/index.html",
+      "Tooltip": "Volume +5%",
+      "UUID": "com.Vallhant.spotify.action.volumeup"
+    },
+    {
+      "Icon": "static/img/vol_down",
+      "Name": "Volume Down",
+      "States": [
+        {
+          "Image": "static/img/emptiness",
+          "TitleAlignment": "bottom",
+          "FontSize": "14"
+        }
+      ],
+      "Controllers": ["Keypad", "Knob"],
+      "UserTitleEnabled": false,
+      "SupportedInMultiActions": true,
+      "PropertyInspectorPath": "propertyInspector/index.html",
+      "Tooltip": "Volume -5%",
+      "UUID": "com.Vallhant.spotify.action.volumedown"
+    },
+    {
+      "Icon": "static/img/info",
+      "Name": "Volume Level",
+      "States": [
+        {
+          "Image": "static/img/emptiness",
+          "TitleAlignment": "bottom",
+          "FontSize": "14"
+        }
+      ],
+      "UserTitleEnabled": false,
+      "SupportedInMultiActions": true,
+      "PropertyInspectorPath": "propertyInspector/index.html",
+      "Controllers": ["Keypad", "Information", "Knob"],
+      "Tooltip": "Current Volume",
+      "UUID": "com.Vallhant.spotify.action.volume_display"
+    },
+    {
+      "Icon": "static/img/vol_up",
+      "Name": "Volume (encoder)",
+      "States": [
+        {
+          "Image": "static/img/emptiness",
+          "TitleAlignment": "bottom",
+          "FontSize": "14"
+        }
+      ],
+      "Controllers": ["Knob"],
+      "UserTitleEnabled": false,
+      "SupportedInMultiActions": true,
+      "PropertyInspectorPath": "propertyInspector/index.html",
+      "Tooltip": "Rotate encoder to change volume",
+      "UUID": "com.Vallhant.spotify.action.volumecontrol"
+    },
+    {
+      "Icon": "static/img/mute",
+      "Name": "Mute",
+      "States": [
+        {
+          "Image": "static/img/emptiness",
+          "TitleAlignment": "bottom",
+          "FontSize": "10"
+        },
+        {
+          "Image": "static/img/emptiness",
+          "TitleAlignment": "bottom",
+          "FontSize": "10"
+        }
+      ],
+      "UserTitleEnabled": false,
+      "SupportedInMultiActions": true,
+      "PropertyInspectorPath": "propertyInspector/index.html",
+      "Controllers": ["Keypad", "Information"],
+      "Tooltip": "Toggle Mute",
+      "UUID": "com.Vallhant.spotify.action.mute"
+    },
+    {
+      "Icon": "static/img/progress",
+      "Name": "Progress",
+      "States": [
+        {
+          "Image": "static/img/emptiness",
+          "TitleAlignment": "middle",
+          "FontSize": "10"
+        }
+      ],
+      "UserTitleEnabled": false,
+      "SupportedInMultiActions": true,
+      "PropertyInspectorPath": "propertyInspector/index.html",
+      "Controllers": ["Keypad", "Information"],
+      "Tooltip": "Progress bar",
+      "UUID": "com.Vallhant.spotify.action.progress"
+    }
+  ],
+  "ApplicationsToMonitor": {
+    "mac": ["Spotify"],
+    "windows": ["Spotify.exe"]
+  },
+  "Author": "Vallhant",
+  "Description": "Локальное управление Spotify на этом компьютере (как Яндекс Музыка). Требуется запуск Spotify с флагом --remote-debugging-port.",
+  "Name": "Spotify",
+  "Icon": "static/img/spotify",
+  "Version": "1.0.3",
+  "SDKVersion": 2,
+  "CodePathWin": "plugin/index.js",
+  "CodePathMac": "plugin/index.js",
+  "Category": "Spotify",
+  "CategoryIcon": "static/img/spotify",
+  "URL": "",
+  "OS": [
+    { "Platform": "mac", "MinimumVersion": "10.11" },
+    { "Platform": "windows", "MinimumVersion": "10" }
+  ],
+  "Software": { "MinimumVersion": "2.10.179.426" },
+  "Nodejs": { "Version": "20" }
+}

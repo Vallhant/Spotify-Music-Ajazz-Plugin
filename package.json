@@ -1,0 +1,10 @@
+{
+  "name": "com.Vallhant.spotify",
+  "version": "1.0.0",
+  "private": true,
+  "description": "StreamDock Spotify plugin",
+  "main": "plugin/index.js",
+  "dependencies": {
+    "ws": "^8.18.0"
+  }
+}
