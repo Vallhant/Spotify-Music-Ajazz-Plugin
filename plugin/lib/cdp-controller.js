@@ -22,7 +22,7 @@ class CDPController {
       'utf8',
     );
     this.state = {
-      track: { title: '', artist: '', cover: '' },
+      track: { title: '', artist: '', album: '', cover: '' },
       playback: { is_playing: false, current_sec: 0, total_sec: 0, ratio: 0 },
       volume: { current: 0, is_muted: false },
       like: { is_liked: false },
@@ -367,6 +367,21 @@ class CDPController {
   toggleLike() {
     return this._cmd('toggleLike');
   }
+  dislike() {
+    return this._cmd('dislike');
+  }
+  async seekDelta(seconds) {
+    const result = await this._cmd('seekDelta', Number(seconds) || 0);
+    if (result?.success) {
+      if ('now_sec' in result) this.state.playback.current_sec = result.now_sec;
+      if ('total_sec' in result) this.state.playback.total_sec = result.total_sec;
+      this.state.playback.ratio = this.state.playback.total_sec > 0
+        ? this.state.playback.current_sec / this.state.playback.total_sec
+        : 0;
+      this._emit();
+    }
+    return result;
+  }
   async volumeUp() {
     return this._adjustVolumePercent(5);
   }
@@ -383,8 +398,11 @@ class CDPController {
 
   formatTime(sec) {
     const s = Math.floor(sec || 0);
+    const h = Math.floor(s / 3600);
     const m = Math.floor(s / 60);
-    return `${m}:${String(s % 60).padStart(2, '0')}`;
+    const mm = h ? String(Math.floor((s % 3600) / 60)).padStart(2, '0') : String(m);
+    const ss = String(s % 60).padStart(2, '0');
+    return h ? `${h}:${mm}:${ss}` : `${mm}:${ss}`;
   }
 }
 

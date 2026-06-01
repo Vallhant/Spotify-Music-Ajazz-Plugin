@@ -31,10 +31,25 @@
         oninput="this.value=this.value.replace(/[^0-9]/g,'')" />
     </div>
 
+    <div class="sdpi-item" type="input">
+      <div class="sdpi-item-label">Шаг кнопок</div>
+      <input class="sdpi-item-value" id="volume_step_button" type="number" min="1" max="20" value="5" />
+    </div>
+
+    <div class="sdpi-item" type="input">
+      <div class="sdpi-item-label">Шаг энкодера</div>
+      <input class="sdpi-item-value" id="volume_step_encoder" type="number" min="1" max="20" value="2" />
+    </div>
+
+    <div class="sdpi-item" type="input">
+      <div class="sdpi-item-label">Перемотка</div>
+      <input class="sdpi-item-value" id="seek_step_encoder" type="number" min="1" max="20" value="5" />
+    </div>
+
     <div class="sdpi-item">
       <div class="sdpi-item-label"></div>
       <div class="sdpi-item-value">
-        <button type="button" id="btn_save">Сохранить порт</button>
+        <button type="button" id="btn_save">Сохранить настройки</button>
         <button type="button" id="btn_launch">Запустить Spotify</button>
       </div>
     </div>
@@ -48,8 +63,10 @@
         <p>2. Нажмите <strong>Запустить Spotify</strong> — приложение откроется с отладкой на порту выше.</p>
         <p>Или вручную из cmd:</p>
         <p><code>%APPDATA%\Spotify\Spotify.exe --remote-debugging-port=9223</code></p>
-        <p>3. Если порт 9222 занят Яндекс Музыкой — используйте 9223 (по умолчанию).</p>
-        <p>4. Управление только локальным клиентом Spotify на этом ПК.</p>
+        <p>3. Шаг кнопок и энкодера задается в процентах: от 1 до 20.</p>
+        <p>4. Перемотка задает секунды за один щелчок энкодера на кнопке Progress.</p>
+        <p>5. Если порт занят другим приложением — укажите свободный порт и запустите Spotify заново.</p>
+        <p>6. Управление только локальным клиентом Spotify на этом ПК.</p>
       </div>
     </div>
   </div>

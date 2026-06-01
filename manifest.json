@@ -1,11 +1,11 @@
 {
   "Actions": [
     {
-      "Icon": "static/img/play_pause",
+      "Icon": "static/img/play-green.png",
       "Name": "Play/Pause",
       "States": [
-        { "Image": "static/img/emptiness", "Name": "Play" },
-        { "Image": "static/img/emptiness", "Name": "Pause" }
+        { "Image": "static/img/play-green.png", "Name": "Play" },
+        { "Image": "static/img/pause-green.png", "Name": "Pause" }
       ],
       "UserTitleEnabled": false,
       "SupportedInMultiActions": true,
@@ -14,9 +14,9 @@
       "UUID": "com.Vallhant.spotify.action.playpause"
     },
     {
-      "Icon": "static/img/next",
+      "Icon": "static/img/next-green.png",
       "Name": "Next Track",
-      "States": [{ "Image": "static/img/emptiness" }],
+      "States": [{ "Image": "static/img/next-green.png" }],
       "UserTitleEnabled": false,
       "SupportedInMultiActions": true,
       "PropertyInspectorPath": "propertyInspector/index.html",
@@ -24,9 +24,9 @@
       "UUID": "com.Vallhant.spotify.action.next"
     },
     {
-      "Icon": "static/img/prev",
+      "Icon": "static/img/back-green.png",
       "Name": "Previous Track",
-      "States": [{ "Image": "static/img/emptiness" }],
+      "States": [{ "Image": "static/img/back-green.png" }],
       "UserTitleEnabled": false,
       "SupportedInMultiActions": true,
       "PropertyInspectorPath": "propertyInspector/index.html",
@@ -34,7 +34,7 @@
       "UUID": "com.Vallhant.spotify.action.prev"
     },
     {
-      "Icon": "static/img/info",
+      "Icon": "static/img/info-green.png",
       "Name": "Track Info",
       "States": [
         {
@@ -51,11 +51,11 @@
       "UUID": "com.Vallhant.spotify.action.info"
     },
     {
-      "Icon": "static/img/like",
+      "Icon": "static/img/no-like-green.png",
       "Name": "Like",
       "States": [
-        { "Image": "static/img/emptiness", "Name": "Like" },
-        { "Image": "static/img/emptiness", "Name": "Unlike" }
+        { "Image": "static/img/no-like-green.png", "Name": "Like" },
+        { "Image": "static/img/like-green.png", "Name": "Unlike" }
       ],
       "UserTitleEnabled": false,
       "SupportedInMultiActions": true,
@@ -65,7 +65,18 @@
       "UUID": "com.Vallhant.spotify.action.like"
     },
     {
-      "Icon": "static/img/vol_up",
+      "Icon": "static/img/dislike-green.png",
+      "Name": "Dislike",
+      "States": [{ "Image": "static/img/dislike-green.png" }],
+      "UserTitleEnabled": false,
+      "SupportedInMultiActions": true,
+      "PropertyInspectorPath": "propertyInspector/index.html",
+      "Controllers": ["Keypad", "Information"],
+      "Tooltip": "Hide / dislike current track",
+      "UUID": "com.Vallhant.spotify.action.dislike"
+    },
+    {
+      "Icon": "static/img/volume-green.png",
       "Name": "Volume Up",
       "States": [
         {
@@ -82,7 +93,7 @@
       "UUID": "com.Vallhant.spotify.action.volumeup"
     },
     {
-      "Icon": "static/img/vol_down",
+      "Icon": "static/img/volume-green.png",
       "Name": "Volume Down",
       "States": [
         {
@@ -99,7 +110,7 @@
       "UUID": "com.Vallhant.spotify.action.volumedown"
     },
     {
-      "Icon": "static/img/info",
+      "Icon": "static/img/volume-green.png",
       "Name": "Volume Level",
       "States": [
         {
@@ -116,7 +127,7 @@
       "UUID": "com.Vallhant.spotify.action.volume_display"
     },
     {
-      "Icon": "static/img/vol_up",
+      "Icon": "static/img/volume-green.png",
       "Name": "Volume (encoder)",
       "States": [
         {
@@ -133,16 +144,16 @@
       "UUID": "com.Vallhant.spotify.action.volumecontrol"
     },
     {
-      "Icon": "static/img/mute",
+      "Icon": "static/img/mute-on-green.png",
       "Name": "Mute",
       "States": [
         {
-          "Image": "static/img/emptiness",
+          "Image": "static/img/mute-on-green.png",
           "TitleAlignment": "bottom",
           "FontSize": "10"
         },
         {
-          "Image": "static/img/emptiness",
+          "Image": "static/img/mute-off-green.png",
           "TitleAlignment": "bottom",
           "FontSize": "10"
         }
@@ -155,8 +166,25 @@
       "UUID": "com.Vallhant.spotify.action.mute"
     },
     {
-      "Icon": "static/img/progress",
+      "Icon": "static/img/progress-green.png",
       "Name": "Progress",
+      "States": [
+        {
+          "Image": "static/img/emptiness",
+          "TitleAlignment": "bottom",
+          "FontSize": "10"
+        }
+      ],
+      "UserTitleEnabled": false,
+      "SupportedInMultiActions": true,
+      "PropertyInspectorPath": "propertyInspector/index.html",
+      "Controllers": ["Keypad", "Information", "Knob"],
+      "Tooltip": "Progress bar / rotate encoder to seek",
+      "UUID": "com.Vallhant.spotify.action.progress"
+    },
+    {
+      "Icon": "static/img/album-green.png",
+      "Name": "Album Info",
       "States": [
         {
           "Image": "static/img/emptiness",
@@ -168,8 +196,8 @@
       "SupportedInMultiActions": true,
       "PropertyInspectorPath": "propertyInspector/index.html",
       "Controllers": ["Keypad", "Information"],
-      "Tooltip": "Progress bar",
-      "UUID": "com.Vallhant.spotify.action.progress"
+      "Tooltip": "Current album",
+      "UUID": "com.Vallhant.spotify.action.album"
     }
   ],
   "ApplicationsToMonitor": {
@@ -179,13 +207,13 @@
   "Author": "Vallhant",
   "Description": "Локальное управление Spotify на этом компьютере (как Яндекс Музыка). Требуется запуск Spotify с флагом --remote-debugging-port.",
   "Name": "Spotify",
-  "Icon": "static/img/spotify",
+  "Icon": "static/img/spotify-green.png",
   "Version": "1.0.3",
   "SDKVersion": 2,
   "CodePathWin": "plugin/index.js",
   "CodePathMac": "plugin/index.js",
   "Category": "Spotify",
-  "CategoryIcon": "static/img/spotify",
+  "CategoryIcon": "static/img/spotify-green.png",
   "URL": "",
   "OS": [
     { "Platform": "mac", "MinimumVersion": "10.11" },

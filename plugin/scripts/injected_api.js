@@ -19,6 +19,11 @@
         'div[data-testid="now-playing-widget"] a[href*="/artist/"]',
         'footer a[href*="/artist/"]',
       ],
+      ALBUM: [
+        '[data-testid="context-item-info-album"]',
+        'div[data-testid="now-playing-widget"] a[href*="/album/"]',
+        'footer a[href*="/album/"]',
+      ],
       COVER: [
         '[data-testid="cover-art-image"]',
         'div[data-testid="now-playing-widget"] img',
@@ -42,6 +47,15 @@
       LIKE: [
         'button[data-testid="add-button"]',
         'button[data-testid="heart-button"]',
+      ],
+      DISLIKE: [
+        'button[data-testid="control-button-dislike"]',
+        'button[data-testid="hide-button"]',
+        'button[aria-label*="Hide"]',
+        "button[aria-label*=\"Don't play\"]",
+        'button[aria-label*="Dislike"]',
+        'button[aria-label*="Скрыть"]',
+        'button[aria-label*="Не рекомендовать"]',
       ],
       TIMELINE: [
         'div[data-testid="playback-progressbar"] input[type="range"]',
@@ -121,6 +135,26 @@
           l.includes('любим') ||
           l.includes('save to your library') ||
           l.includes('remove from your library')
+        ) {
+          return btn;
+        }
+      }
+      return null;
+    },
+
+    findDislikeButton(root) {
+      const scope = root || document;
+      const direct = Utils.findBtn(scope, DOM.Controls.DISLIKE);
+      if (direct) return direct;
+      for (const btn of scope.querySelectorAll('button')) {
+        const l = (btn.getAttribute('aria-label') || '').toLowerCase();
+        if (
+          l.includes('hide this song') ||
+          l.includes("don't play") ||
+          l.includes('do not play') ||
+          l.includes('dislike') ||
+          l.includes('скрыть') ||
+          l.includes('не рекомендовать')
         ) {
           return btn;
         }
@@ -212,6 +246,7 @@
           return {
             title: item.name || item.title,
             artist: (item.artists || []).map((a) => a.name).join(', '),
+            album: item.album?.name || item.album?.title || d.album?.name || d.album?.title || '',
             cover: item.image || item.album?.images?.[0]?.url,
             playing: !d.isPaused,
             liked: d.isHearted || false,
@@ -235,6 +270,7 @@
 
         const titleEl = Utils.find(root, DOM.Track.TITLE);
         const artistEl = Utils.find(root, DOM.Track.ARTIST);
+        const albumEl = Utils.find(root, DOM.Track.ALBUM);
         const likeBtn = Utils.findLikeButton(root) || this._findBtnOne('likeBtn', root, DOM.Controls.LIKE);
         const playBtn = this._findBtnOne('playBtn', root, DOM.Controls.PLAY_PAUSE);
 
@@ -257,6 +293,7 @@
             track: {
               title: sp?.title || titleEl?.textContent?.trim() || 'Unknown',
               artist: sp?.artist || artistEl?.textContent?.trim() || '',
+              album: sp?.album || albumEl?.textContent?.trim() || '',
               cover: sp?.cover || cover || '',
             },
             state: {
@@ -316,6 +353,25 @@
       } catch (e) {
         return { success: false, error: String(e) };
       }
+    }
+
+    dislike() {
+      try {
+        delete this.cache.dislikeBtn;
+        const root = this._getPlayer();
+        const btn = Utils.findDislikeButton(root) || this._findBtnOne('dislikeBtn', root, DOM.Controls.DISLIKE);
+        if (!btn || btn.disabled) return { success: false, error: 'Dislike button not found' };
+        btn.click();
+        return { success: true };
+      } catch (e) {
+        return { success: false, error: String(e) };
+      }
+    }
+
+    seekDelta(seconds) {
+      const progress = this._getProgressState(this._getPlayer(), this._spicetifyState());
+      const target = (progress.now_sec || 0) + (Number(seconds) || 0);
+      return this._setProgressSeconds(target);
     }
 
     changeVolume(action, value) {
@@ -383,6 +439,45 @@
       const now = Utils.toSec(nowStr);
       const total = Utils.toSec(endStr);
       return { now_sec: now, total_sec: total, ratio: total > 0 ? now / total : 0 };
+    }
+
+    _setProgressSeconds(seconds) {
+      const state = this._getProgressState(this._getPlayer(), this._spicetifyState());
+      const total = state.total_sec || 0;
+      const targetSec = Math.max(0, total ? Math.min(total, seconds) : seconds);
+      try {
+        if (typeof Spicetify !== 'undefined' && Spicetify.Player?.seek) {
+          Spicetify.Player.seek(targetSec * 1000);
+          return { success: true, now_sec: targetSec, total_sec: total };
+        }
+      } catch (e) {
+        /* ignore */
+      }
+
+      const root = this._getPlayer();
+      const slider = Utils.getProgressSlider(root);
+      if (!slider) return { success: false, error: 'Progress slider not found' };
+
+      const max = parseFloat(slider.max) || 0;
+      const usesMs = max > 1000;
+      const value = usesMs ? targetSec * 1000 : targetSec;
+      slider.value = String(Math.max(0, max ? Math.min(max, value) : value));
+      slider.dispatchEvent(new Event('input', { bubbles: true }));
+      slider.dispatchEvent(new Event('change', { bubbles: true }));
+
+      const ratio = total > 0 ? targetSec / total : 0;
+      const bar = slider.closest('[data-testid="playback-progressbar"], [data-testid="progress-bar"]') || slider;
+      const rect = bar.getBoundingClientRect();
+      if (rect.width > 0) {
+        const x = rect.left + rect.width * Math.max(0, Math.min(1, ratio));
+        const y = rect.top + rect.height / 2;
+        const opts = { bubbles: true, cancelable: true, clientX: x, clientY: y, view: window };
+        bar.dispatchEvent(new MouseEvent('mousedown', opts));
+        bar.dispatchEvent(new MouseEvent('mouseup', opts));
+        bar.dispatchEvent(new MouseEvent('click', opts));
+      }
+
+      return { success: true, now_sec: targetSec, total_sec: total };
     }
 
     _getVolumeState(root, sp) {

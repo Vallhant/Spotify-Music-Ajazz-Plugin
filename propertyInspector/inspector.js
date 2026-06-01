@@ -17,6 +17,9 @@ function connectElgatoStreamDeckSocket(inPort, inUUID, inRegisterEvent, inApplic
     if (data.event === 'didReceiveGlobalSettings') {
       const gs = data.payload.settings || {};
       document.getElementById('local_port').value = gs.local_port || 9223;
+      document.getElementById('volume_step_button').value = gs.volume_step_button || 5;
+      document.getElementById('volume_step_encoder').value = gs.volume_step_encoder || 2;
+      document.getElementById('seek_step_encoder').value = gs.seek_step_encoder || 5;
     }
     if (data.event === 'sendToPropertyInspector') {
       const p = data.payload || {};
@@ -46,7 +49,13 @@ function setStatus(connected, port) {
 }
 
 document.getElementById('btn_save').onclick = () => {
-  sendPlugin({ type: 'savePort', port: document.getElementById('local_port').value });
+  sendPlugin({
+    type: 'savePort',
+    port: document.getElementById('local_port').value,
+    volumeStepButton: document.getElementById('volume_step_button').value,
+    volumeStepEncoder: document.getElementById('volume_step_encoder').value,
+    seekStepEncoder: document.getElementById('seek_step_encoder').value,
+  });
 };
 
 document.getElementById('btn_launch').onclick = () => {
