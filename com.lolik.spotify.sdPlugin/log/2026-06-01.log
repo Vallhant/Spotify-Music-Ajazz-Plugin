@@ -1,0 +1,22 @@
+[2026-06-01T13:35:01.280Z] [INFO] Host args {"port":"18618","uuid":"E820JCM412U2R32YKN28Z76D694S9S82","registerEvent":"registerPlugin"} argv.len 10
+[2026-06-01T13:35:01.286Z] [INFO] Connecting to ws://127.0.0.1:18618
+[2026-06-01T13:35:01.290Z] [INFO] Spotify plugin (local CDP) started
+[2026-06-01T13:35:02.160Z] [INFO] StreamDock WS open
+[2026-06-01T13:35:03.734Z] [INFO] Action appear dislike 00769k7s1dk3029yzeur1w1i338ppd2j
+[2026-06-01T13:35:03.736Z] [INFO] Action appear info ge7j0hiqw9997me66v5vr9ki371d207e
+[2026-06-01T13:35:03.737Z] [INFO] Action appear like wvl0v2c8k7w6e9e9s643432xp75x6x34
+[2026-06-01T13:35:03.737Z] [INFO] Action appear mute kp30e126a5308r613447to4wo1em0eqn
+[2026-06-01T13:35:03.738Z] [INFO] Action appear prev k5dq2ytnr601dnc38nhm4n58j1hjck64
+[2026-06-01T13:35:03.739Z] [INFO] Action appear playpause 4g1hs2hd6n441j37zlh33w1347aenmv1
+[2026-06-01T13:35:03.739Z] [INFO] Action appear next 813yb2r1027g1482vox1gqan2m506n38
+[2026-06-01T13:35:03.740Z] [INFO] Action appear progress 2h1748d60vw84028e59c000s88vd0186
+[2026-06-01T13:35:03.740Z] [INFO] Action appear volumecontrol 806e9emte809m2v831604q44g0783k57
+[2026-06-01T13:35:03.744Z] [INFO] Spotify CDP: connected
+[2026-06-01T13:35:03.757Z] [INFO] Injecting Spotify API...
+[2026-06-01T13:35:03.806Z] [INFO] Injection OK
+[2026-06-01T13:35:03.811Z] [INFO] CDP setup complete
+[2026-06-01T13:35:04.463Z] [INFO] keyDown playpause
+[2026-06-01T13:35:04.523Z] [INFO] keyUp playpause
+[2026-06-01T13:35:05.223Z] [INFO] keyDown playpause
+[2026-06-01T13:35:05.283Z] [INFO] keyUp playpause
+[2026-06-01T13:36:12.941Z] [INFO] StreamDock WS closed
