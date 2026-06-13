@@ -13,6 +13,9 @@
   <img src="https://img.shields.io/badge/platform-Windows%20%7C%20macOS-1DB954?style=flat-square&labelColor=191414" alt="Platform">
 </p>
 
+<img width="6026" height="4024" alt="DSC00742 (1)" src="https://github.com/user-attachments/assets/f8128cf1-81e1-400b-9950-3bc924bb600f" />
+
+
 
 ## 📋 Описание
 
